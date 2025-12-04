@@ -1,0 +1,101 @@
+:root{
+  --primary-color: #1b2431;
+  --secondary-color: #141b25;
+  --text-color: #cdddea;
+  --primary-text-size: 13px;
+}
+
+body{
+  background: var(--primary-color);
+  color: var(--text-color);
+  font-size: var(--primary-text-size);
+}
+
+.company_header{
+  background-color: var(--secondary-color);
+  min-width: 250px;
+}
+
+
+.sideBarMenu{
+   min-width: 250px;
+}
+
+.sideBarMenuList {
+  position: relative;
+  color:#73899b;
+}
+
+.sideBarMenuList > div{
+  cursor: pointer;
+  padding: 8px 10px;
+  transition: .3s;
+}
+
+.sideBarMenuList > div:hover{
+  background-color: #323a46;
+}
+
+.sideBarMenuList.active {
+  color:#cdddea;
+}
+.sideBarMenuList.active > div:after{
+  position:absolute;
+  left: 0%;
+  top: 0%;
+  height: 100%;
+  width: 5px;
+  background:#cdddeac2;
+  content: ""
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    /* gap: 1rem;  */
+}
+
+.search-wrapper {
+    flex-grow: 1;   
+}
+
+.dashboard-search-input {
+    width: 100%;      
+}
+
+.dashboard-search-input{
+  border:none;
+  background-color: #323a46;
+  outline: none;
+  padding:7px;
+  margin:0px;
+}
+
+.dashboard-search-input:focus{
+  background-color: #fff;
+}
+
+.body-container {
+    display: flex;
+    /* gap: 1rem;  */
+}
+
+.content-body{
+
+  flex-grow: 1;
+  background-color: #323a46;
+  min-height: 100vh;
+}
+
+.btn1{
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border:none;
+  border-radius: 5px;
+  padding: 5px;
+  text-decoration: none;
+}
+
+.btn1:hover{
+  background-color: var(--primary-color);
+}

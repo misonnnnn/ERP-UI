@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "ERP Sytem",
   description: "",
+  icons: {
+    icon: '/file.svg',
+  },
 };
 
 export default function RootLayout({
