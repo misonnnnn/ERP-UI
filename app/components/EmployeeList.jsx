@@ -1,9 +1,19 @@
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import AddNewEmployee from "./AddNewEmployee";
+import "../css/modal.css"
+import { UserPlus } from "lucide-react";
 
 export default function EmployeeList(){
     const [ addNewEmployeeModal, showAddNewEmployeeModal ] = useState(false);
+
+    useEffect(()=>{
+        if(addNewEmployeeModal){
+            document.body.style.overflow = "hidden";  
+        }else{
+            document.body.style.overflow = "";  
+        }
+    }, [addNewEmployeeModal])
 
     return (
         <>
@@ -11,7 +21,7 @@ export default function EmployeeList(){
                 <div className="row w-100">
                     <div className="col-lg-9 mx-auto">
                         <div className="d-flex justify-content-end mt-5">
-                            <button className="btn1" onClick={()=>showAddNewEmployeeModal(true)}>Add new employee</button>
+                            <button className="btn1" onClick={()=>showAddNewEmployeeModal(true)}><UserPlus size={20} /> Add new employee</button>
                         </div>
                         <div className="rounded overflow-hidden mt-2">
                             <table class="table table-dark table-striped">
@@ -37,12 +47,21 @@ export default function EmployeeList(){
                 </div>
             </div>
 
-
             {
                 addNewEmployeeModal ? 
-                <div className="position-absolute bg-light text-dark">
-                    <AddNewEmployee />
-                </div>
+                <>
+                    <div className="modal-background" onClick={ () => showAddNewEmployeeModal(false)}></div>
+                    <div className="modal-div">
+                        <div className="row m-0 w-100">
+                            <div className="col-lg-8 mx-auto ">
+                                <div className="modal-div-content">
+                                    <div className="modal-div-close" onClick={ () => showAddNewEmployeeModal(false)}> X </div>
+                                    <AddNewEmployee />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </>
 
                 : ''
             }

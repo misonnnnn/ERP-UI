@@ -3,6 +3,7 @@ import DashboardItem from "../../components/DashboardItem"
 import "../../css/dashboard.css"
 import EmployeeList from "../../components/EmployeeList"
 import { useState } from "react"
+import { BookUser, Boxes, Egg, LogOut } from "lucide-react"
 
 export default function Employee(){
     const [activeMenu, setActiveMenu ] = useState('employee-list');
@@ -10,8 +11,8 @@ export default function Employee(){
     return(
         <>
             <div className="header-container">
-                <div className="company_header p-3">
-                    <h6 className="m-0">Work Nest | HRIS</h6>
+                <div className="company_header p-3 d-flex align-items-center">
+                    <h6 className="m-0 p-0"><Egg /> Work Nest | HRIS</h6>
                 </div>
 
                 <div className="search-wrapper">
@@ -19,7 +20,7 @@ export default function Employee(){
                 </div>
 
                 <div className="mx-2">
-                    <span>Sign out</span>
+                    <span><LogOut /> Sign out</span>
                 </div>
             </div>
 
@@ -27,12 +28,12 @@ export default function Employee(){
                 <div className="sideBarMenu">
                     <div className={`sideBarMenuList ${activeMenu == 'employee-list' ? 'active' : ''}`}>
                         <div onClick={()=> setActiveMenu('employee-list')}>
-                            Employee List
+                            <BookUser /> Employee List
                         </div>
                     </div>
                     <div className={`sideBarMenuList ${activeMenu == 'employee-position' ? 'active' : ''}`}>
                         <div onClick={()=> setActiveMenu('employee-position')}>
-                            Employee Position
+                            <Boxes /> Employee Position
                         </div>
                     </div>
                 </div>
