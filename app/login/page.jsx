@@ -1,14 +1,19 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import api from "@/lib/api";
 import "../css/login.css";
 import { AtSign, Egg, Loader, ShieldAlert, SquareAsterisk } from "lucide-react";
+import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Login() {
+  const router = useRouter(); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { login } = useContext(AuthContext);
 
   
   const emailRef = useRef(null);
@@ -28,9 +33,10 @@ export default function Login() {
         setIsLoading(true);
         setErrorMessage("");
         const res = await api.post("/login", { email, password });
-        localStorage.setItem("token", res.data.access_token);
-        window.location.href = "/hris/employee";
+        await login(res.data.access_token);
+        router.push("/hris/employee");
       }catch (error){
+        console.log(error)
         setErrorMessage("Account not found. ")
       }finally{
         setIsLoading(false);

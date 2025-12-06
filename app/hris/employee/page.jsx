@@ -2,11 +2,17 @@
 import DashboardItem from "../../components/DashboardItem"
 import "../../css/dashboard.css"
 import EmployeeList from "../../components/EmployeeList"
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { BookUser, Boxes, Egg, LogOut } from "lucide-react"
+import { AuthContext } from "../../../context/AuthContext"
+import { redirect } from "next/navigation"
 
 export default function Employee(){
     const [activeMenu, setActiveMenu ] = useState('employee-list');
+    const { user, authLoading  } = useContext(AuthContext);
+    if(!authLoading && !user){
+        redirect('/login')         
+    }
 
     return(
         <>

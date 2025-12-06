@@ -1,93 +1,78 @@
 "use client";
 
-import { createContext, useState, useEffect, ReactNode } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { createContext, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import api from "@/lib/api";
 
-export const AuthContext = createContext<any>(null);
 
-export function AuthProvider() {
+export const AuthContext = createContext(null);
+
+export function AuthProvider({ children }) {
   const router = useRouter();
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState<any>(null);
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token); // true if token exists
-    if(token){
-      getUser(token);
+  // Fetch logged-in user via token
+  const getUser = async (token) => {
+    try {
+      const res = await api.get("/me", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setUser(res.data);
+      return res.data;
+    } catch (err) {
+      console.error("Failed to fetch user:", err);
+      return null;
     }
+  };
+
+  // Initialize on first load
+  useEffect(() => {
+    async function init() {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setAuthLoading(false);
+        return;
+      }
+
+      const u = await getUser(token);
+
+      if (u) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+        localStorage.removeItem("token");
+      }
+
+      setAuthLoading(false);
+    }
+
+    init();
   }, []);
 
+  // Login function
   const login = async (token) => {
     localStorage.setItem("token", token);
     setIsLoggedIn(true);
+
     await getUser(token);
-    router.push("/");
+
+    router.push("/hris/employee");
   };
 
+  // Logout function
   const logout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     setUser(null);
-    setIsAdminLoggedIn(false);
-    // router.refresh()
-    redirect('/');
+    router.push("/");
   };
-
-  const getUser = async (token) => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/me`, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        setUser(data.user);
-        if(data.user.role == 'admin'){
-          setIsAdminLoggedIn(true)
-        }
-      }
-    } catch (err) {
-      console.error("Error fetching user:", err);
-    }
-  };
-
-useEffect(() => {
-  async function init() {
-    const token = localStorage.getItem("token"); // string | null
-
-    if (!token) {
-      // No token = no user
-      setIsAdminLoggedIn(false);
-      setAuthLoading(true);
-      return;
-    }
-
-    try {
-      const u = await getUser(token);
-      setIsAdminLoggedIn(u?.isAdmin ?? false);
-      setIsLoggedIn(!!u);
-      setUser(u);
-    } catch (err) {
-      console.error("Failed to load user", err);
-      setIsAdminLoggedIn(false);
-      setIsLoggedIn(false);
-      setUser(null);
-    } finally {
-      setAuthLoading(true);
-    }
-  }
-
-  init();
-}, []);
-
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, logout, isAdminLoggedIn }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, login, logout, authLoading }}>
       {children}
     </AuthContext.Provider>
   );

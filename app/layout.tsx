@@ -1,30 +1,24 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Script from "next/script";
+import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata: Metadata = {
-  title: "ERP Sytem",
+  title: "ERP System",
   description: "",
   icons: {
-    icon: '/file.svg',
+    icon: "/file.svg",
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body
-        className=''
-      >
-        <Script
-          src="https://unpkg.com/micromodal/dist/micromodal.min.js"
-          strategy="afterInteractive"
-        />
-        {children}
+      <body>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

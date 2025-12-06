@@ -4,6 +4,7 @@ import AddNewEmployee from "./AddNewEmployee";
 import "../css/modal.css"
 import { UserPlus } from "lucide-react";
 
+
 export default function EmployeeList(){
     const [ addNewEmployeeModal, showAddNewEmployeeModal ] = useState(false);
 
@@ -24,7 +25,7 @@ export default function EmployeeList(){
                             <button className="btn1" onClick={()=>showAddNewEmployeeModal(true)}><UserPlus size={20} /> Add new employee</button>
                         </div>
                         <div className="rounded overflow-hidden mt-2">
-                            <table class="table table-dark table-striped">
+                            <table className="table table-dark table-striped">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
