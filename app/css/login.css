@@ -1,0 +1,87 @@
+body{
+    background: #1b2431;
+    color:#fff;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #1b2431 inset; /* your background */
+    -webkit-text-fill-color: #fff; /* your text color */
+}
+
+input:-webkit-autofill + .custom_login_label {
+    top: -12px !important;
+    padding: 0 10px;
+    z-index: 9;
+}
+
+.custom_login_input {
+    border:none;
+    padding: 5px;
+    color:#fff !important;
+    width: 100%;
+    background: rgba(.0, .0, .0, .0);
+    font-size:14px;
+    outline: none;
+    caret-color: #fff;
+    text-align: center;
+}
+
+.login_input_outer{
+    border: solid 1px #fff;
+    border-radius: 5px;
+    margin-top: 20px;
+    padding: 3px;
+    position: relative;
+}
+
+.custom_login_label {
+    position: absolute;
+    left: 10px;
+    background: #1b2431;
+    top: 5px;
+    padding: 0 0px;
+    transition: 0.3s ease;
+    z-index: -9;
+}
+
+.custom_login_active {
+    animation: custom_login_label_animation 0.3s forwards;
+}
+
+@keyframes custom_login_label_animation {
+    0% {
+        top: 5px;
+        padding: 0 0px;
+    }
+    0%{
+       top: -10px;
+       z-index: 9;
+    }
+    100% {
+        top: -10px;
+        padding: 0 10px;
+        z-index: 9;
+    }
+}
+
+.login_custom_button{
+    border:none;
+    border-radius: 3px;
+}
+
+.login_custom_button:hover{
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.login_loading {
+    animation: login_loading 2s linear infinite;
+}
+
+@keyframes login_loading {
+    0% {
+        transform: rotate(120deg);
+    }
+    100% {
+        transform: rotate(480deg); /* or 360deg for a full spin */
+    }
+}

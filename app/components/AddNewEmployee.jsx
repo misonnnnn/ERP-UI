@@ -18,19 +18,19 @@ export default function AddNewEmployee(){
                     <div className="col-lg-4 mt-3" >
                         <div>
                             <label htmlFor="">First Name <span className="text-danger">*</span></label>
-                            <input type="text" className="form-control form-control shadow-none" placeholder="First name" />
+                            <input type="text" className="form-control form-control-sm  shadow-none" placeholder="First name" />
                         </div>
                     </div>
                     <div className="col-lg-4 mt-3">
                         <div>
                             <label htmlFor="">Middle Name <span className="text-danger">*</span></label>
-                            <input type="text" className="form-control form-control shadow-none" placeholder="Middle Name" />
+                            <input type="text" className="form-control form-control-sm  shadow-none" placeholder="Middle Name" />
                         </div>
                     </div>
                     <div className="col-lg-4 mt-3">
                         <div>
                             <label htmlFor="">Last Name <span className="text-danger">*</span></label>
-                            <input type="text" className="form-control form-control shadow-none" placeholder="Last Name" />
+                            <input type="text" className="form-control form-control-sm  shadow-none" placeholder="Last Name" />
                         </div>
                     </div>
 
