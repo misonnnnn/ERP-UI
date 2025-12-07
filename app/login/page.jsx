@@ -13,7 +13,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useContext(AuthContext);
+  const { login, isLoggedIn } = useContext(AuthContext);
 
   
   const emailRef = useRef(null);
@@ -34,7 +34,7 @@ export default function Login() {
         setErrorMessage("");
         const res = await api.post("/login", { email, password });
         await login(res.data.access_token);
-        router.push("/hris/employee");
+        router.push("/hris");
       }catch (error){
         console.log(error)
         setErrorMessage("Account not found. ")
@@ -45,7 +45,10 @@ export default function Login() {
       setErrorMessage("All fields required.")
     }
   }
- 
+
+  // if(isLoggedIn){
+  //   redirect('/')
+  // } 
 
   return (
     <div className="vh-100 vw-100 d-flex  align-items-center">

@@ -37,8 +37,8 @@ export default function AddNewEmployee(){
                     <div className="col-lg-4 mt-3">
                         <div>
                             <label htmlFor="">Position<span className="text-danger">*</span></label>
-                            <select name="" id="" className="form-control form-control-sm shadow-none"> 
-                                <option value="" selected disabled>Select Position</option>
+                            <select name="" id="" className="form-control form-control-sm shadow-none"  defaultValue=""> 
+                                <option value=""  disabled>Select Position</option>
                             </select>
                         </div>
                     </div>

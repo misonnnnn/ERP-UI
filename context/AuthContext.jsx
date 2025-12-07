@@ -4,7 +4,6 @@ import { createContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
 
-
 export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
@@ -14,11 +13,17 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
 
-  // Fetch logged-in user via token
+  const getToken = () => {
+    return document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("token="))
+      ?.split("=")[1];
+  };
+
   const getUser = async (token) => {
     try {
       const res = await api.get("/me", {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
       setUser(res.data);
       return res.data;
@@ -28,10 +33,9 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // Initialize on first load
   useEffect(() => {
     async function init() {
-      const token = localStorage.getItem("token");
+      const token = getToken();
 
       if (!token) {
         setAuthLoading(false);
@@ -40,12 +44,8 @@ export function AuthProvider({ children }) {
 
       const u = await getUser(token);
 
-      if (u) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-        localStorage.removeItem("token");
-      }
+      if (u) setIsLoggedIn(true);
+      else setIsLoggedIn(false);
 
       setAuthLoading(false);
     }
@@ -53,9 +53,8 @@ export function AuthProvider({ children }) {
     init();
   }, []);
 
-  // Login function
   const login = async (token) => {
-    localStorage.setItem("token", token);
+    document.cookie = `token=${token}; path=/; max-age=86400`; // 1 day
     setIsLoggedIn(true);
 
     await getUser(token);
@@ -63,12 +62,13 @@ export function AuthProvider({ children }) {
     router.push("/hris/employee");
   };
 
-  // Logout function
   const logout = () => {
-    localStorage.removeItem("token");
+    document.cookie = "token=; path=/; max-age=0"; // Deletes cookie
+
     setIsLoggedIn(false);
     setUser(null);
-    router.push("/");
+
+    router.push("/login");
   };
 
   return (
