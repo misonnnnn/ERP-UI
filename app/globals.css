@@ -1,1 +1,14 @@
 @import "bootstrap";
+
+.loading_animation {
+    animation: loading_animation 2s linear infinite;
+}
+
+@keyframes loading_animation {
+    0% {
+        transform: rotate(120deg);
+    }
+    100% {
+        transform: rotate(480deg); /* or 360deg for a full spin */
+    }
+}
