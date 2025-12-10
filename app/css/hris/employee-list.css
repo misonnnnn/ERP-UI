@@ -1,0 +1,60 @@
+.employee-list-table{
+    background:#1b2431;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.employee-list-table thead th {
+    padding:10px;
+    border-bottom:solid 2px #323a46;
+}
+
+.employee-list-table tbody td {
+    padding:10px;
+    border-bottom:solid 2px #323a46;
+}
+
+.employee-list-table thead tr{
+    background-color: rgba(0, 0, 0, 0.304);
+}
+
+.employee-list-image{
+    background:#323a46;
+    border:solid 1px #444;
+    border-radius: 5px;
+    height: 50px;
+    width: 50px;
+}
+
+.employee-list-table-search{
+  border:none;
+  background-color: #1b2431;
+  outline: none;
+  padding:7px;
+  margin:0px;
+  border-radius: 3px;
+  color:#fff;
+}
+
+.employee-list-table-button {
+    border:none;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    background-color: #323a46;
+    color: #fff;
+    padding: 5px 10px;
+    transition: .3s;
+}
+
+.employee-list-table-button:hover{
+    background-color: #65758e;
+}
+
+.employee-list-table tbody tr{
+    transition:.3s;
+}
+
+.employee-list-table tbody tr:hover{
+    background-color: rgba(0,0,0,.5);
+}

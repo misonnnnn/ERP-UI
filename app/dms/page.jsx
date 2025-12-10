@@ -1,6 +1,5 @@
 "use client"
 import "../css/dashboard.css"
-import EmployeeList from "../components/EmployeeList"
 import { useContext, useEffect, useState } from "react"
 import { Archive, BookUser, Boxes, Egg, Folders, LogOut, Trash2 } from "lucide-react"
 import { AuthContext } from "../../context/AuthContext"

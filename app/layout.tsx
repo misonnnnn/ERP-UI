@@ -4,10 +4,10 @@ import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-  title: "ERP System",
+  title: "Work Nest | ERP",
   description: "",
   icons: {
-    icon: "/file.svg",
+    icon: "/icon.svg",
   },
 };
 

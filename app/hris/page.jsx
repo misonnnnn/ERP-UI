@@ -1,7 +1,6 @@
 "use client"
-import DashboardItem from "../components/DashboardItem"
 import "../css/dashboard.css"
-import EmployeeList from "../components/EmployeeList"
+import EmployeeList from "../components/hris/EmployeeList"
 import { useContext, useEffect, useState } from "react"
 import { BookUser, Boxes, Egg, LogOut } from "lucide-react"
 import { AuthContext } from "../../context/AuthContext"
@@ -26,6 +25,11 @@ export default function Employee(){
                     <div className={`sideBarMenuList ${activeMenu == 'employee-position' ? 'active' : ''}`}>
                         <div onClick={()=> setActiveMenu('employee-position')}>
                             <Boxes /> Employee Position
+                        </div>
+                    </div>
+                    <div className={`sideBarMenuList ${activeMenu == 'department' ? 'active' : ''}`}>
+                        <div onClick={()=> setActiveMenu('department')}>
+                            <Boxes /> Department
                         </div>
                     </div>
                 </div>
