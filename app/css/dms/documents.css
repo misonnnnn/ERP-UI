@@ -1,0 +1,85 @@
+/* this is for the back flap of the folder */
+.folder{
+	-webkit-perspective: 500px;
+	perspective: 500px;
+	width: 180px;
+	height: 100px;
+	background: #6d7d94;
+	position: relative;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	border-top-right-radius: 5px;
+	cursor: pointer;
+	-webkit-transition: all 300ms ease;
+	transition: all 300ms ease;
+    margin-left: 50px;
+}
+/* this is for the folder's tab */
+.folder::before{
+	width: 60px;
+	height: 10px;
+	content: '';
+	/* background: #ffd480; */
+	background: #6d7d94;
+	position: absolute;
+	top: -10px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+/* this is for the folder's front flap */
+.folder::after{
+	width: 200px;
+	height: 110px;
+	position: absolute;
+	content: '';
+	background: #6d7d94;
+	top: 20px;
+	left: -5px;
+	box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.3);
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	/* the transform property rotates the front flap of the folder a bit t0 make it look 3D */
+	-webkit-transform: rotateX(-10deg);
+	transform: rotateX(-10deg);
+	-webkit-transition: all 400ms ease;
+	transition: all 400ms ease;
+}
+/* this is for the piece of paper inside the folder */
+.folder-inside{
+	width: 180px;
+	height: 100px;
+	position: absolute;
+	background: #fff;
+	top: 10px;
+	left: 10px;
+	box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.05);
+	-webkit-transform: rotate(-1deg);
+	transform: rotate(-1deg);
+	border: 1px solid #ddd;
+	-webkit-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+
+/* finally let's get this folder to rotate when we hover on it */
+.folder:hover{
+	-webkit-transform: translate(-50%, -52%);
+	transform: translate(-50%, -52%);
+}
+.folder:hover::after{
+	-webkit-transform: rotateX(-15deg);
+	transform: rotateX(-15deg);
+}
+.folder:hover .folder-inside{
+	-webkit-transform: rotate(-7deg) translateY(-15%);
+	transform: rotate(-7deg) translateY(-15%);
+}
+
+.folder-name{
+    position: absolute;
+    bottom: -50px;
+    z-index: 99;
+}
+
+.folder-outer{
+    margin-bottom: 80px;
+}

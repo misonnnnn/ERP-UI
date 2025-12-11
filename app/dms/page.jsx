@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react"
 import { Archive, BookUser, Boxes, Egg, Folders, LogOut, Trash2 } from "lucide-react"
 import { AuthContext } from "../../context/AuthContext"
 import HeaderContainer from "../components/HeaderContainer"
+import Documents from "../components/dms/Documents"
 
 export default function Dms(){
     const [activeMenu, setActiveMenu ] = useState('documents');
@@ -33,7 +34,7 @@ export default function Dms(){
                 </div>
                 <div className="content-body">
                     {
-                        activeMenu == 'employee-list' ? <EmployeeList /> : ''
+                        activeMenu == 'documents' ? <Documents /> : ''
                     }
                 </div>
             </div>
