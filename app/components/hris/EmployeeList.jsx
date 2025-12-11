@@ -41,7 +41,6 @@ export default function EmployeeList(){
 
             const queryString = new URLSearchParams(params).toString();
             const res = await api.get("/employees?"+queryString);
-            console.log(res.data)
 
             //removing first and last url from links
            
@@ -159,7 +158,7 @@ export default function EmployeeList(){
                                                 paginationData?.links?.map((i, key)=>{
                                                     return (
                                                         <li className="page-item" key={key}>
-                                                            <div className={`page-link ${i.active ? ' active' : ''}`} onClick={() => handleSetPage(i.page)}>
+                                                            <div className={`page-link ${i.active ? ' active' : ''} ${i.url ? 'available' : ''}`} onClick={() => handleSetPage(i.page)}>
                                                                 {i.label === "&laquo; Previous" ? (
                                                                     <ChevronsLeft size={13} />
                                                                 ) : i.label === "Next &raquo;" ? (

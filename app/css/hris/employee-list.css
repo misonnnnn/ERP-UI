@@ -64,9 +64,16 @@
     border: #323a46 solid 1px;
     color:#fff;
     cursor: pointer;
+    transition: .3s;
 }
+
 
 .pagination .page-link.active{
     background-color: #fff !important;
     color:#1b2431 !important;
+}
+
+.pagination .page-link.available:hover{
+    background: #fff !important;
+    color:#1b2431;
 }
