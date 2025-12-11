@@ -3,7 +3,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import AddNewEmployee from "./AddNewEmployee";
 import "../../css/modal.css"
-import { EyeIcon, LoaderCircle, SquarePen, UserPlus, UserRound } from "lucide-react";
+import { ChevronsLeft, ChevronsRight, EyeIcon, LoaderCircle, SquarePen, UserPlus, UserRound } from "lucide-react";
 import api from "@/lib/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -14,8 +14,11 @@ export default function EmployeeList(){
     dayjs.extend(relativeTime);
     const [ addNewEmployeeModal, showAddNewEmployeeModal ] = useState(false);
     const [ employeeList, setEmployeeList ] = useState([]);
-    const [search, setSearch] = useState("");
-    const [isEmployeeListLoading, setIsEmployeeListLoading ] = useState(true);
+    const [ search, setSearch] = useState("");
+    const [ page, setPage] = useState(1);
+    const [ perPage, setPerPage] = useState(10);
+    const [ isEmployeeListLoading, setIsEmployeeListLoading ] = useState(true);
+    const [ paginationData, setPaginationData ] = useState(null);
 
     useEffect(()=>{
         if(addNewEmployeeModal){
@@ -38,7 +41,17 @@ export default function EmployeeList(){
 
             const queryString = new URLSearchParams(params).toString();
             const res = await api.get("/employees?"+queryString);
+            console.log(res.data)
+
+            //removing first and last url from links
+           
+
             setEmployeeList(res.data.data);
+            setPaginationData({
+                links : res.data.links,
+                prev_page_url: res.data.prev_page_url,
+                next_page_url: res.data.next_page_url,
+            });
             setIsEmployeeListLoading(false)
         }catch(err){
             console.log(err)
@@ -52,13 +65,17 @@ export default function EmployeeList(){
     useEffect(() => {
         setIsEmployeeListLoading(true)
         const timeout = setTimeout(() => {
-            getEmployeeList(search);
+            getEmployeeList(search, perPage, page);
         }, 500);
 
         return () => clearTimeout(timeout);
-    }, [search]);
+    }, [search, page]);
 
-    
+    const handleSetPage = (pageToSet) =>{
+        if(pageToSet != null && pageToSet !== page){
+            setPage(pageToSet);
+        }
+    }
 
     return (
         <>
@@ -67,13 +84,11 @@ export default function EmployeeList(){
                     <div className="col-lg-9 mx-auto">
                         <div className="d-flex justify-content-end mt-5">
                             <div>
-                                <input type="search" class="employee-list-table-search" onChange={ (e) => setSearch(e.target.value)} placeholder="Search ..." />
+                                <input type="search" className="employee-list-table-search" onChange={ (e) => (setSearch(e.target.value) , setPage(1))} placeholder="Search ..." />
                             </div>
                             <button className="ms-2 btn1" onClick={()=>showAddNewEmployeeModal(true)}><UserPlus size={20} /> Add new employee</button>
                         </div>
-                        <div className="rounded overflow-hidden mt-2">
-                            
-                           
+                        <div className=" overflow-hidden mt-2">
                             {
                             <table className="employee-list-table ">
                                 <thead>
@@ -96,7 +111,7 @@ export default function EmployeeList(){
                                             employeeList.length > 0 ? 
                                             employeeList.map((value, index)=>{
                                             return (
-                                                <tr>
+                                                <tr key={index}>
                                                     <td>
                                                         <div className="employee-list-image d-flex justify-content-center align-items-center">
                                                             <UserRound />
@@ -133,6 +148,36 @@ export default function EmployeeList(){
                                 
                             }
 
+                            {/* pagination */}
+                            {
+                                paginationData?.links ? 
+                                <div>
+                                    <nav className="mt-2 d-flex justify-content-end">
+                                        <ul className="pagination ">
+
+                                            {
+                                                paginationData?.links?.map((i, key)=>{
+                                                    return (
+                                                        <li className="page-item" key={key}>
+                                                            <div className={`page-link ${i.active ? ' active' : ''}`} onClick={() => handleSetPage(i.page)}>
+                                                                {i.label === "&laquo; Previous" ? (
+                                                                    <ChevronsLeft size={13} />
+                                                                ) : i.label === "Next &raquo;" ? (
+                                                                    <ChevronsRight size={13} />
+                                                                ) : (
+                                                                    i.label
+                                                                )}
+                                                            </div>
+                                                        </li>
+                                                    )
+                                                })
+                                            }
+                                        </ul>
+                                    </nav>
+                                </div>
+
+                                : ''
+                            }
                             
                         </div>
                     </div>
