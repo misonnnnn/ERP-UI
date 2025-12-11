@@ -10,7 +10,7 @@
 }
 
 .employee-list-table tbody td {
-    padding:10px;
+    padding:5px 10px;
     border-bottom:solid 2px #323a46;
 }
 

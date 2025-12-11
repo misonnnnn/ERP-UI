@@ -16,7 +16,7 @@ export default function EmployeeList(){
     const [ employeeList, setEmployeeList ] = useState([]);
     const [ search, setSearch] = useState("");
     const [ page, setPage] = useState(1);
-    const [ perPage, setPerPage] = useState(10);
+    const [ perPage, setPerPage] = useState(8);
     const [ isEmployeeListLoading, setIsEmployeeListLoading ] = useState(true);
     const [ paginationData, setPaginationData ] = useState(null);
 
@@ -28,16 +28,26 @@ export default function EmployeeList(){
         }
     }, [addNewEmployeeModal])
 
-    const getEmployeeList = async (searchkeyword=null, per_page=10, page=1)=>{
+    const getEmployeeList = async (searchkeyword=null, per_pageToSet=null, pageToSet=null)=>{
         try{
-            const params = {
-                page,
-                per_page
-            };
+            const params = {};
 
             if(searchkeyword){
                 params.search = searchkeyword;
             }
+
+            if(per_pageToSet){
+                params.per_page = per_pageToSet;
+            }else{
+                params.per_page = perPage;
+            }
+
+            if(pageToSet){
+                params.page = pageToSet;
+            }else{
+                params.page = page;
+            }
+
 
             const queryString = new URLSearchParams(params).toString();
             const res = await api.get("/employees?"+queryString);
