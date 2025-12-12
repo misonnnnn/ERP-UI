@@ -25,16 +25,14 @@ export default function CreateNewFolder({ closeModal, reinitializeFolderList }){
 
             const res = await api.post("/folder", formData);
 
-            if(res.data){
-                if(res.data.id){
-                    toast.success("Folder created successfully")
-                    closeModal()
-                    setName("");
-                    reinitializeFolderList();
-                } 
+            if(res.data.success){
+                toast.success(res.data.message)
+                closeModal()
+                setName("");
+                reinitializeFolderList();
             
             }else{
-                toast.error("Failed to create folder.")
+                toast.error(res.data.message)
             }
 
         } catch (err) {

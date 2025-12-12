@@ -5,16 +5,19 @@ import "../../css/modal.css"
 import CreateNewFolder from "./CreateNewFolder"
 import { useEffect, useState } from "react"
 import api from "@/lib/api"
+import LoadingContainer from "../LoadingContainer"
 
 export default function Documents(){
     const [ isCreateNewFolderModalActive, setIsCreateNewFolderModalActive ] = useState(false);
     const [ folderList, setFolderList ] = useState([]);
+    const [ isFolderListLoading, setIsFolderListLoading ] = useState(true);
     
     const getFolderList = async () =>{
         const res = await api.get("/folder?");
         if(res){
             console.log(res)
             setFolderList(res.data);
+            setIsFolderListLoading(false);
         }
     }
 
@@ -47,6 +50,7 @@ export default function Documents(){
                 <div className="position-relative mt-5" >
                     <div className="row ">
                         {
+                            isFolderListLoading ? <LoadingContainer /> : 
                             folderList?.map((folder, index) =>{
                                 return (
                                     <div className="col-lg-2 col-md-4 col-sm-6 folder-outer">
