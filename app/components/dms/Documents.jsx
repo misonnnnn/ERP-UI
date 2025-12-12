@@ -50,8 +50,10 @@ export default function Documents(){
                 <div className="position-relative mt-5" >
                     <div className="row ">
                         {
-                            isFolderListLoading ? <LoadingContainer /> : 
-                            folderList?.map((folder, index) =>{
+                            isFolderListLoading ? <LoadingContainer /> :
+                            
+                            folderList.length ? 
+                            folderList.map((folder, index) =>{
                                 return (
                                     <div className="col-lg-2 col-md-4 col-sm-6 folder-outer">
                                         <div className="folder">
@@ -61,6 +63,12 @@ export default function Documents(){
                                     </div>
                                 )
                             })
+
+                            : 
+
+                            <div className="col-lg-12 ">
+                                <p className="text-center">No documents to load</p>
+                            </div>
                         }
                         
                         
