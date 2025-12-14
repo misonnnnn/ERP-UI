@@ -6,6 +6,7 @@ import { AtSign, Egg, Loader, ShieldAlert, SquareAsterisk } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "../../context/AuthContext";
+import { toast } from "sonner";
 
 export default function Login() {
   const router = useRouter(); 
@@ -34,6 +35,7 @@ export default function Login() {
         setErrorMessage("");
         const res = await api.post("/login", { email, password });
         await login(res.data.access_token);
+        toast.success("Login successfully!")
         router.push("/hris");
       }catch (error){
         console.log(error)

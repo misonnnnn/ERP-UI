@@ -11,9 +11,19 @@ export default function Documents(){
     const [ isCreateNewFolderModalActive, setIsCreateNewFolderModalActive ] = useState(false);
     const [ folderList, setFolderList ] = useState([]);
     const [ isFolderListLoading, setIsFolderListLoading ] = useState(true);
+    const [ folderParentId, setFolderParentId ] = useState(null);
+    const [ folderParentName, setFolderParentName ] = useState('root');
+    const [ folderPerentIds, setFolderPerentIds ] = useState([{folder_id : null, folder_name : 'root'}]);
     
     const getFolderList = async () =>{
-        const res = await api.get("/folder?");
+
+        const params = {}
+        if(folderParentId){
+            params.folder_parent_id = folderParentId;
+        }
+        const queryString = new URLSearchParams(params).toString();
+
+        const res = await api.get("/folder?"+queryString);
         if(res){
             console.log(res)
             setFolderList(res.data);
@@ -22,8 +32,13 @@ export default function Documents(){
     }
 
     useEffect(() =>{
+        setIsFolderListLoading(true);
         getFolderList();
-    }, [])
+        if(!folderPerentIds.some(f => f.folder_id === folderParentId)){
+            folderPerentIds.push({folder_id: folderParentId, folder_name: folderParentName });
+            console.log(folderPerentIds)
+        }
+    }, [folderParentId])
 
     return (
         <>
@@ -44,7 +59,17 @@ export default function Documents(){
                 {/* breadcrumbs */}
                 
                 <div>
-                    <p className="m-0"><span className="path-text me-3">Path:</span> Home <ChevronRight size={10} /> test <ChevronRight size={10} /></p>
+                    <div className="m-0"><span className="path-text me-3 d-flex">Path:</span> 
+                        {
+                            folderPerentIds.map((folder, key) =>{
+                                return (
+                                    <span key={key}>
+                                        <span>{folder.folder_name} <ChevronRight size={10} /></span>
+                                    </span>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
 
                 <div className="position-relative mt-5" >
@@ -55,7 +80,7 @@ export default function Documents(){
                             folderList.length ? 
                             folderList.map((folder, index) =>{
                                 return (
-                                    <div className="col-lg-2 col-md-4 col-sm-6 folder-outer">
+                                    <div className="col-lg-2 col-md-4 col-sm-6 folder-outer" key={index} onClick={() => (setFolderParentId(folder.id), setFolderParentName(folder.name) )}>
                                         <div className="folder">
                                             <div className="folder-inside"></div>
                                             <span className="folder-name">{folder.name}</span>
@@ -89,6 +114,7 @@ export default function Documents(){
                                     <CreateNewFolder  
                                         closeModal={() => setIsCreateNewFolderModalActive(false)}
                                         reinitializeFolderList = { () => getFolderList()} 
+                                        folderParentId={folderParentId}
                                     />
                                 </div>
                             </div>

@@ -3,9 +3,8 @@ import { useState } from "react";
 import api from "@/lib/api";
 import { toast } from "sonner";
 
-export default function CreateNewFolder({ closeModal, reinitializeFolderList }){
+export default function CreateNewFolder({ closeModal, reinitializeFolderList, folderParentId }){
     const [name, setName] = useState(null);
-    
     const [loading, setLoading] = useState(false);
 
     async function handleSubmit(e) {
@@ -20,8 +19,12 @@ export default function CreateNewFolder({ closeModal, reinitializeFolderList }){
         setLoading(true);
 
         try {
-        const formData = new FormData();
+        const formData =    new FormData();
             formData.append("name", name);
+
+            if(folderParentId){
+                formData.append("parent_id", folderParentId);
+            }
 
             const res = await api.post("/folder", formData);
 
